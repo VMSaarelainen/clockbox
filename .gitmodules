@@ -1,0 +1,27 @@
+[submodule "components/Gpio"]
+	path = components/Gpio
+	url = https://git.ralphmontfort.com/ArduinoHardwareAbstraction/Gpio
+[submodule "components/statuscodesandexceptions"]
+	path = components/statuscodesandexceptions
+	url = https://git.ralphmontfort.com/ArduinoHardwareAbstraction/statuscodesandexceptions
+[submodule "components/i2c"]
+	path = components/i2c
+	url = https://git.ralphmontfort.com/ArduinoHardwareAbstraction/i2c
+[submodule "components/ssd1306display"]
+	path = components/ssd1306display
+	url = https://git.ralphmontfort.com/ArduinoHardwareAbstraction/ssd1306display
+[submodule "components/Delay"]
+	path = components/Delay
+	url = https://git.ralphmontfort.com/ArduinoHardwareAbstraction/Delay
+[submodule "components/dynamicarray"]
+	path = components/dynamicarray
+	url = https://git.ralphmontfort.com/ArduinoHardwareAbstraction/dynamicarray
+[submodule "components/SPI"]
+	path = components/SPI
+	url = https://git.ralphmontfort.com/ArduinoHardwareAbstraction/SPI
+[submodule "components/simpledebug"]
+	path = components/simpledebug
+	url = https://git.ralphmontfort.com/ArduinoHardwareAbstraction/simpledebug
+[submodule "components/mstream"]
+	path = components/mstream
+	url = https://git.ralphmontfort.com/ArduinoHardwareAbstraction/mstream

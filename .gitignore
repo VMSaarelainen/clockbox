@@ -1,0 +1,10 @@
+#*.*
+.vscode/
+
+#whitelist filetypes
+.vscode/BROWSE.VC.DB
+
+
+sdkconfig
+build/
+components/
