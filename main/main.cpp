@@ -64,7 +64,7 @@ void webserver_run()
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     ConfigAP AP;
-    //todo: set ssid and pw
+    //todo: read ssid and pw from flash so they can be configured
     AP.Init();
 }
 
@@ -99,10 +99,6 @@ bool tick(int *OutHours, int *OutMinutes, int *OutSeconds)
     *OutHours = now_tm->tm_hour;
     *OutMinutes = now_tm->tm_min;
     *OutSeconds = now_tm->tm_sec;
-    //ESP_LOGI("main", "Time: %i:%i:%i", *OutHours, *OutMinutes, *OutSeconds);
-    /*if (gettimeofday(&tv, NULL) == 0) {       //epoch time print
-        ESP_LOGI("main", "Epoch time: %ld", tv.tv_sec);
-    }*/
     return true;
 }
 
@@ -122,7 +118,6 @@ void drawClockFace(int hours, int minutes, int seconds, double offsetAngle)
 
     display.clear();
     display.drawCircle(displayMiddleX, displayMiddleY, clockFaceRadius);
-    //display.clearPixel(displayMiddleX + (clockFaceRadius * cos(offsetAngle)), displayMiddleY + (clockFaceRadius * sin(offsetAngle)));
     display.drawLine(   //dash indicating top of clock
         displayMiddleX + (clockFaceRadius * cos(offsetAngle)),
         displayMiddleY + (clockFaceRadius * sin(offsetAngle)),
@@ -133,13 +128,13 @@ void drawClockFace(int hours, int minutes, int seconds, double offsetAngle)
     display.drawLine(displayMiddleX, displayMiddleY, displayMiddleX + clockFaceRadius * cos(minutesAngle), displayMiddleY + clockFaceRadius * sin(minutesAngle));   //minute hand
     //display.drawLine(displayMiddleX, displayMiddleY, displayMiddleX + clockFaceRadius * cos(secondsAngle), displayMiddleY + clockFaceRadius * sin(secondsAngle));   //second hand
     display.display();
-    //ESP_LOGI("ANGLES", "%f %f %f %f", hoursAngle, minutesAngle, secondsAngle, offsetAngle);
 }
     
 extern "C" void app_main(void)
 {
     //webserver_run();
     StatusCode_t status = StatusCode_t::OK;
+
     //init
     status = i2c.Init(I2C_NUM_0, I2C_SDA_PIN, I2C_SCL_PIN, true);
     if (status != StatusCode_t::OK)
@@ -154,12 +149,14 @@ extern "C" void app_main(void)
 
     double offsetAngle = 0.0;
     double offsetAngleSeed = 1.0;   //todo: make rng its own function or class and init with random seed
+    
+    //main loop
     while (true)
-    { //main loop
+    { 
         int hours = 0;
         int minutes = 0;
         int seconds = 0;
-        //offsetAngle = fmod((offsetAngle + M_PI/12), (2*M_PI));    //constant rotation
+        //offsetAngle = fmod((offsetAngle + M_PI/12), (2*M_PI));    //constant rotation algorithm
 
         //random wave generator function from https://stackoverflow.com/questions/8798771/perlin-noise-for-1d
         offsetAngle = FactorTotal * ( Factor1 * sin(Scale1 * offsetAngleSeed) - FactorE * sin(ScaleE * M_E * offsetAngleSeed) + FactorPi * sin(ScalePi * M_PI * offsetAngleSeed));
